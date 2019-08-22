@@ -1,0 +1,14 @@
+<Target Name="BeforeBuild">
+  <!-- Remove read-only attribute -->
+  <Exec Command="dotnet publish %(ProjectReference.FullPath) -c $(Configuration)" Condition="'%(ProjectReference.WebProject)'=='True'" />
+  <PropertyGroup>
+    <LinkerBaseInputPaths>%(ProjectReference.RootDir)%(ProjectReference.Directory)bin\$(Configuration)\net462\publish</LinkerBaseInputPaths>
+    <DefineConstants>BasePath=%(ProjectReference.RootDir)%(ProjectReference.Directory)bin\$(Configuration)\net462\publish</DefineConstants>
+  </PropertyGroup>
+  
+  <HeatDirectory OutputFile="%(ProjectReference.Filename).wxs" DirectoryRefId="INSTALLFOLDER" ComponentGroupName="%(ProjectReference.Filename)" SuppressCom="true"
+    Directory="%(ProjectReference.RootDir)%(ProjectReference.Directory)bin\$(Configuration)\net462\publish\"
+    SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" AutoGenerateGuids="true" GenerateGuidsNow="true"
+    ToolPath="$(WixToolPath)" PreprocessorVariable="var.BasePath" Condition="'%(ProjectReference.WebProject)'=='True'" />
+  
+  </Target>
