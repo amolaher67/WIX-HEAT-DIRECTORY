@@ -1,0 +1,9 @@
+ <Target Name="BeforeBuild">
+    <Exec Command="attrib -R %(ProjectReference.Filename).wxs" />
+    <!-- <MSBuild Projects="%(ProjectReference.FullPath)" Targets="Package" Properties="Configuration=$(Configuration);Platform=AnyCPU" Condition="'%(ProjectReference.Filename)'=='AgentX.Configuration.API'" /> -->
+    <ItemGroup>
+      <LinkerBindInputPaths Include="%(ProjectReference.RootDir)%(ProjectReference.Directory)bin\$(Configuration)\net462\" />
+    </ItemGroup>
+    <HeatDirectory OutputFile="%(ProjectReference.Filename).wxs" Directory="%(ProjectReference.RootDir)%(ProjectReference.Directory)bin\$(Configuration)\net462\" DirectoryRefId="INSTALLFOLDER" ComponentGroupName="%(ProjectReference.Filename)" AutogenerateGuids="true" SuppressCom="true" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" ToolPath="$(WixToolPath)" Condition="'%(ProjectReference.Filename)'=='AgentX.Configuration.API'" />
+    <!--Transforms="$(ProjectDir)Excludes.xslt"-->
+  </Target>
